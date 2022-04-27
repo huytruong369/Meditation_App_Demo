@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meditation_app/constants.dart';
+import 'package:meditation_app/screens/detail_screen.dart';
+import 'package:meditation_app/widgets/bottom_nav_bar.dart';
+import 'package:meditation_app/widgets/bottom_nav_item.dart';
+import 'package:meditation_app/widgets/category_card.dart';
+import 'package:meditation_app/widgets/search_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,6 +37,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size; //Size of the device
     return Scaffold(
+      bottomNavigationBar: const BottomNavBar(),
       body: Stack(
         children: [
           Container(
@@ -72,11 +78,48 @@ class HomeScreen extends StatelessWidget {
                           fontSize: 33,
                           fontWeight: FontWeight.bold,
                         ),
-                  )
+                  ),
+                  const SearchBar(),
+                  Expanded(
+                    child: GridView.count(
+                      crossAxisCount: 2,
+                      childAspectRatio: .85,
+                      crossAxisSpacing: 19,
+                      mainAxisSpacing: 19,
+                      children: [
+                        CategoryCard(
+                          svgSrc: 'assets/icons/Hamburger.svg',
+                          title: 'Diet Recommendation',
+                          press: () {},
+                        ),
+                        const CategoryCard(
+                          svgSrc: 'assets/icons/Excrecises.svg',
+                          title: 'Kegel Exercises',
+                        ),
+                        const CategoryCard(
+                          svgSrc: 'assets/icons/yoga.svg',
+                          title: 'Yoga',
+                        ),
+                        CategoryCard(
+                          svgSrc: 'assets/icons/Meditation.svg',
+                          title: 'Meditation',
+                          press: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return const DetailScreen();
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
